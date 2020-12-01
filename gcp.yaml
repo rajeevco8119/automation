@@ -1,0 +1,26 @@
+- hosts: localhost
+  connection: local 
+  tasks:
+    - name: creating instance on GCP
+      gcp_compute_instance:
+      name: Rajeev Mahajan
+      machine_type: e2-micro
+      disks:
+       - auto-delete: true
+         boot : true
+         initialize_params: 
+           source_image: projects/centos-cloud/global/images/family/centos-7
+      network-interface:
+       - access_configs:
+         - name: External NAT
+           type: ONE_TO_ONE_NAT
+      metadata:
+       startup_script: |
+            sudo yum install httpd -y
+            do echo "HELLO WORLD" > /var/www/html/index.html
+            sudo systemctl restart httpd
+      zone: us-central1-a
+      project: rajiv-297861
+      auth-kind: serviceaccount
+      service-account-file: ./service-json
+      state: present
