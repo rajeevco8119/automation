@@ -1,0 +1,19 @@
+- name: Create a jenkins container
+  community.general.docker_container:
+    docker_host: myserver.net:4243
+    name: my_jenkins
+    image: jenkins
+
+- name: Add the container to inventory
+  ansible.builtin.add_host:
+    name: my_jenkins
+    ansible_connection: docker_container
+    ansible_docker_extra_args: "--tlsverify --tlscacert=/path/to/ca.pem --tlscert=/path/to/client-cert.pem --tlskey=/path/to/client-key.pem -H=tcp://myserver.net:4243"
+    ansible_user: jenkins
+  changed_when: false
+
+- name: create a directory for ssh keys
+  delegate_to: my_jenkins
+  ansible.builtin.file:
+    path: "/var/jenkins_home/.ssh/jupiter"
+    state: directory

@@ -1,0 +1,30 @@
+[inventory]
+enable_plugins = host_list, script, auto, yaml, ini, toml
+
+[inventory]
+enable_plugins = namespace.collection_name.inventory_plugin_name
+
+ansible hostname -i inventory_source -m ansible.builtin.ping
+
+#########  Demo aws
+plugin: amazon.aws.aws_ec2
+regions:
+ - us-east-1
+ - us-east-2
+keyed_groups:
+  - key: tags.Name
+    prefix: tag_Name_
+    separator: ""
+
+groups:
+  development: "'devel' in (tags|list)"
+
+compose:
+  ansible_host: private_ip_address
+
+plugin: amazon.aws.aws_ec2
+cache: yes
+cache_plugin: ansible.builtin.jsonfile
+cache_timeout: 7200
+cache_connection: /tmp/aws_inventory
+cache_prefix: aws_ec2

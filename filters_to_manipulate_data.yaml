@@ -1,0 +1,128 @@
+#Filters lets transform YAML data to JSON data, split URL to extract hostname, get the SHA1 hash of string, add or multiply integers
+
+#List of Builtin Filters
+#abs()
+#
+#float()
+#
+#lower()
+#
+#round()
+#
+#tojson()
+#
+#attr()
+#
+#forceescape()
+#
+#map()
+#
+#safe()
+#
+#trim()
+#
+#batch()
+#
+#format()
+#
+#max()
+#
+#select()
+#
+#truncate()
+#
+#capitalize()
+#
+#groupby()
+#
+#min()
+#
+#selectattr()
+#
+#unique()
+#
+#center()
+#
+#indent()
+#
+#pprint()
+#
+#slice()
+#
+#upper()
+#
+#default()
+#
+#int()
+#
+#random()
+#
+#sort()
+#
+#urlencode()
+#
+#dictsort()
+#
+#join()
+#
+#reject()
+#
+#string()
+#
+#urlize()
+#
+#escape()
+#
+#last()
+#
+#rejectattr()
+#
+#striptags()
+#
+#wordcount()
+#
+#filesizeformat()
+#
+#length()
+#
+#replace()
+#
+#sum()
+#
+#wordwrap()
+#
+#first()
+#
+#list()
+#
+#reverse()
+#
+#title()
+#
+#xmlattr()
+
+#you can also add a defaults/main.yml to define the default values for variables in your role.
+
+{{ some_variable| default(5) }}
+
+{{ foo.bar.baz | default('DEFAULT') }}
+
+{{ lookup('env','MY_USER') | default('admin',true) }}
+
+
+## Make variable optional
+
+- name: Touch files with an optional mode
+  ansible.buildin.file:
+    dest: "{{ item.path }}"
+    state: touch
+    mode: "{{ item.mode|default(omit) }}"
+  loop:
+    - path: /tmp/foo
+    - path: /tmp/bar
+    - path: /tmp/baz
+      mode: "0444"
+
+
+### Defining mandatory values
+{{ variable | mandatory }}
