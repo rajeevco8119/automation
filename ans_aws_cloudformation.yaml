@@ -4,7 +4,7 @@
     state: "present"
     region: "us-east-1"
     disable_rollback: true
-    template:"aws-cloudformation.json"
+    template: "aws-cloudformation.json"
     template_parameters:
       KeyName: "rajeev"
       DiskType: "ephemeral"
